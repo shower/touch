@@ -1,0 +1,19 @@
+{
+  "name": "shower-touch",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "plugin.Touch.js",
+  "ignore": [
+    "*",
+    "!License.md",
+    "!Readme.md",
+    "!plugin.Touch.js",
+    "!bower.json"
+  ],
+  "keywords": [
+    "shower",
+    "presentation",
+    "plugin",
+    "touch"
+  ]
+}
