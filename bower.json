@@ -2,12 +2,12 @@
   "name": "shower-touch",
   "version": "0.0.1",
   "license": "MIT",
-  "main": "plugin.Touch.js",
+  "main": "shower-touch.js",
   "ignore": [
     "*",
     "!License.md",
     "!Readme.md",
-    "!plugin.Touch.js",
+    "!shower-touch.js",
     "!bower.json"
   ],
   "keywords": [

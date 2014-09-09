@@ -1,15 +1,8 @@
 /**
  * @fileOverview
  * Touch events plugin for shower.
- *
- * @example
- * modules.require(['shower', 'plugin.Touch'], function (shower, Touch) {
- *     shower.ready(function () {
- *          var Touch = new Touch(shower);
- *     });
- * });
  */
-modules.define('plugin.Touch', [
+modules.define('shower-touch', [
     'util.extend'
 ], function (provide, extend) {
 
@@ -109,4 +102,8 @@ modules.define('plugin.Touch', [
     });
 
     provide(Touch);
+});
+
+modules.require(['shower'], function (shower) {
+    shower.plugins.add('shower-touch');
 });
