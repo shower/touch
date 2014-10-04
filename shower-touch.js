@@ -21,8 +21,6 @@ modules.define('shower-touch', [
         // TODO: Gestures: pan, pinch, tap, swipe etc.
         // HammerJS?
         this._gestures = options.gestures;
-
-        this.init();
     }
 
     extend(Touch.prototype, /** @lends plugin.Touch.prototype */{
