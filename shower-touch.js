@@ -95,7 +95,7 @@ modules.define('shower-touch', [
         },
 
         _isInteractiveElement: function (element) {
-            return element.nodeType == 'A';
+            return element.nodeName == 'A';
         }
     });
 
