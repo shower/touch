@@ -3,8 +3,14 @@
  * Touch events plugin for shower.
  */
 modules.define('shower-touch', [
-    'util.extend'
-], function (provide, extend) {
+    'util.extend',
+    'util.bind'
+], function (provide, extend, bind) {
+
+    var INTERACTIVE_ELEMENTS = [
+        'VIDEO', 'AUDIO', 
+        'A', 'BUTTON', 'INPUT'
+    ];
 
     /**
      * @class
@@ -40,14 +46,17 @@ modules.define('shower-touch', [
             this._showerListeners = shower.events.group()
                 .on('destroy', this.destroy, this);
 
-            document.addEventListener('touchstart', this._onTouchStart.bind(this), false);
-            document.addEventListener('touchmove', this._onTouchMove.bind(this), false);
+            this._bindedTouchStart = bind(this._onTouchStart, this);
+            this._bindedTouchMove = bind(this._onTouchMove.bind, this);
+
+            document.addEventListener('touchstart', this._bindedTouchStart, false);
+            document.addEventListener('touchmove', this._bindedTouchMove, false);
         },
 
         _clearListeners: function () {
             this._showerListeners.offAll();
-            document.removeEventListener('touchstart', this._onTouchStart.bind(this), false);
-            document.removeEventListener('touchmove', this._onTouchMove.bind(this), false);
+            document.removeEventListener('touchstart', this._bindedTouchStart, false);
+            document.removeEventListener('touchmove', this._bindedTouchMove, false);
         },
 
         _onTouchStart: function (e) {
@@ -95,7 +104,9 @@ modules.define('shower-touch', [
         },
 
         _isInteractiveElement: function (element) {
-            return element.nodeName == 'A';
+            return INTERACTIVE_ELEMENTS.some(function (elName) { 
+                return elName == element.tagName;
+            });
         }
     });
 
