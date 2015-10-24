@@ -22,13 +22,11 @@ modules.define('shower-touch', [
     function Touch (shower, options) {
         options = options || {};
         this._shower = shower;
+
+        this._setupListeners();
     }
 
     extend(Touch.prototype, /** @lends plugin.Touch.prototype */{
-
-        init: function () {
-            this._setupListeners();
-        },
 
         destroy: function () {
             this._clearListeners();
