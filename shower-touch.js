@@ -3,9 +3,8 @@
  * Touch events plugin for shower.
  */
 modules.define('shower-touch', [
-    'util.extend',
-    'util.bind'
-], function (provide, extend, bind) {
+    'util.extend'
+], function (provide, extend) {
 
     var INTERACTIVE_ELEMENTS = [
         'VIDEO', 'AUDIO', 
@@ -23,10 +22,6 @@ modules.define('shower-touch', [
     function Touch (shower, options) {
         options = options || {};
         this._shower = shower;
-
-        // TODO: Gestures: pan, pinch, tap, swipe etc.
-        // HammerJS?
-        this._gestures = options.gestures;
     }
 
     extend(Touch.prototype, /** @lends plugin.Touch.prototype */{
@@ -46,8 +41,8 @@ modules.define('shower-touch', [
             this._showerListeners = shower.events.group()
                 .on('destroy', this.destroy, this);
 
-            this._bindedTouchStart = bind(this._onTouchStart, this);
-            this._bindedTouchMove = bind(this._onTouchMove.bind, this);
+            this._bindedTouchStart = this._onTouchStart.bind(this);
+            this._bindedTouchMove = this._onTouchMove.bind(this);
 
             document.addEventListener('touchstart', this._bindedTouchStart, false);
             document.addEventListener('touchmove', this._bindedTouchMove, false);
@@ -60,11 +55,11 @@ modules.define('shower-touch', [
         },
 
         _onTouchStart: function (e) {
-            var shower = this._shower,
-                isSlideMode = shower.container.isSlideMode(),
-                element = e.target,
-                slide = this._getSlideByElement(element),
-                x;
+            var shower = this._shower;
+            var isSlideMode = shower.container.isSlideMode();
+            var element = e.target;
+            var slide = this._getSlideByElement(element);
+            var x;
 
             if (slide) {
                 if (isSlideMode && !this._isInteractiveElement(element)) {
@@ -90,11 +85,11 @@ modules.define('shower-touch', [
         },
 
         _getSlideByElement: function (element) {
-            var slides = this._shower.getSlidesArray(),
-                result = null;
+            var slides = this._shower.getSlidesArray();
+            var result = null;
 
             for (var i = 0, k = slides.length; i < k; i++) {
-                if (element.id == slides[i].getId()) {
+                if (element.id === slides[i].getId()) {
                     result = this._shower.get(i);
                     break;
                 }
