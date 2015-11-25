@@ -2,12 +2,12 @@
  * @fileOverview
  * Touch events plugin for shower.
  */
-modules.define('shower-touch', [
+shower.modules.define('shower-touch', [
     'util.extend'
 ], function (provide, extend) {
 
     var INTERACTIVE_ELEMENTS = [
-        'VIDEO', 'AUDIO', 
+        'VIDEO', 'AUDIO',
         'A', 'BUTTON', 'INPUT'
     ];
 
@@ -63,9 +63,9 @@ modules.define('shower-touch', [
                 if (isSlideMode && !this._isInteractiveElement(element)) {
                     x = e.touches[0].pageX;
                     if (x > window.innerWidth / 2) {
-                        shower.next();
+                        shower.player.next();
                     } else {
-                        shower.prev();
+                        shower.player.prev();
                     }
                 }
 
@@ -97,7 +97,7 @@ modules.define('shower-touch', [
         },
 
         _isInteractiveElement: function (element) {
-            return INTERACTIVE_ELEMENTS.some(function (elName) { 
+            return INTERACTIVE_ELEMENTS.some(function (elName) {
                 return elName == element.tagName;
             });
         }
@@ -106,6 +106,6 @@ modules.define('shower-touch', [
     provide(Touch);
 });
 
-modules.require(['shower'], function (shower) {
-    shower.plugins.add('shower-touch');
+shower.modules.require(['shower'], function (sh) {
+    sh.plugins.add('shower-touch');
 });
