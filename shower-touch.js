@@ -83,7 +83,7 @@ shower.modules.define('shower-touch', [
         },
 
         _getSlideByElement: function (element) {
-            var slides = this._shower.getSlidesArray();
+            var slides = this._shower.getSlides();
             var result = null;
 
             for (var i = 0, k = slides.length; i < k; i++) {
