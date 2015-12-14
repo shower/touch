@@ -37,26 +37,41 @@ shower.modules.define('shower-touch', [
             var shower = this._shower;
 
             this._showerListeners = shower.events.group()
-                .on('destroy', this.destroy, this);
+                .on('add', this._onSlideAdd, this);
 
             this._bindedTouchStart = this._onTouchStart.bind(this);
             this._bindedTouchMove = this._onTouchMove.bind(this);
 
-            document.addEventListener('touchstart', this._bindedTouchStart, false);
-            document.addEventListener('touchmove', this._bindedTouchMove, false);
+            this._shower.getSlides().forEach(this._addTouchStartListener, this);
+            document.addEventListener('touchmove', this._bindedTouchMove, true);
         },
 
         _clearListeners: function () {
             this._showerListeners.offAll();
-            document.removeEventListener('touchstart', this._bindedTouchStart, false);
+            this._shower.getSlides().forEach(this._removeTouchStartListener, this);
             document.removeEventListener('touchmove', this._bindedTouchMove, false);
+        },
+
+        _onSlideAdd: function (event) {
+            var slide = event.get('slide');
+            this._addTouchStartListener(slide);
+        },
+
+        _addTouchStartListener: function (slide) {
+            var element = slide.layout.getElement();
+            element.addEventListener('touchstart', this._bindedTouchStart, false);
+        },
+
+        _removeTouchStartListener: function (slide) {
+            var element = slide.layout.getElement();
+            element.removeEventListener('touchstart', this._bindedTouchStart, false);
         },
 
         _onTouchStart: function (e) {
             var shower = this._shower;
             var isSlideMode = shower.container.isSlideMode();
             var element = e.target;
-            var slide = this._getSlideByElement(element);
+            var slide = this._getSlideByElement(e.currentTarget);
             var x;
 
             if (slide) {
@@ -98,7 +113,7 @@ shower.modules.define('shower-touch', [
 
         _isInteractiveElement: function (element) {
             return INTERACTIVE_ELEMENTS.some(function (elName) {
-                return elName == element.tagName;
+                return elName === element.tagName;
             });
         }
     });
