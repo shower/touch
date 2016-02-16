@@ -76,6 +76,7 @@ shower.modules.define('shower-touch', [
 
             if (slide) {
                 if (isSlideMode && !this._isInteractiveElement(element)) {
+                    e.preventDefault();
                     x = e.touches[0].pageX;
                     if (x > window.innerWidth / 2) {
                         shower.player.next();
